@@ -2,23 +2,23 @@ import os,time
 
 pizzas = []
 try:
-    with open("something.txt", "r") as f:
+    with open("pizzashop.txt", "r") as f:
         pizzas = eval(f.read())
 except:
     print("ERROR: No existing pizza list, man")
 
 def addPizza():
     time.sleep(1)
-    os.system("cls")
+    os.system("clear")
     name = input("Name: ")
     toppings = input("Toppings: ")
     size = input("Size (s/m/l): ")
     while True:
         try:
-            qty = input("Quantity: ")
+            qty = int(input("Quantity: "))
             break
         except:
-            print("ERROR: Quantity must be a whole number!")
+            print("ERROR: Quantity must be a whole numerical number!")
     cost = 0
     if size == "s":
         cost = 5.99
@@ -43,8 +43,8 @@ def viewPizza():
 
 
 while True:
-    time.sleep(1)
-    os.system("cls")
+    time.sleep(2)
+    os.system("clear")
     print("Ergun's super-duper pizzas")
     print()
     menu = input("1: Add Pizza\n2: View Pizzas\n> ")
@@ -52,7 +52,7 @@ while True:
         addPizza()
     else:
         viewPizza()
-    with open("something.txt", "w") as f:
+    with open("pizzashop.txt", "w") as f:
         f.write(str(pizzas))
 
 
