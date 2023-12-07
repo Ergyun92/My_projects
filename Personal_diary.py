@@ -1,5 +1,5 @@
 from replit import db
-import os, time, datetime
+import os, time, datetime, random
 
 def add_entry():
   time.sleep(1)
@@ -9,7 +9,7 @@ def add_entry():
   print()
   entry = input("Type an entry: ")
   db[timestamp] = entry
-  
+
 
 def view_entries():
   keys = db.keys()
@@ -22,11 +22,30 @@ def view_entries():
     more = input("Do you want to view next entry or exit to main menu?\n> ")
     if more[0].lower() == 'e':
       break
-    
-password = input("Enter your password: ")
-if password != "Spiderman92":
-  print("Incorect password")
-  exit()
+
+keys = db.keys()
+if len(keys) < 1:
+  print("First time? Create an account")
+  name = input("Username: ")
+  password = input("Password: ")
+  salt = random.randint(0, 9999)
+  newPassword = hash(f"{password}{salt}")
+  db[name] = {
+    "password": newPassword,
+    "salt": salt
+  }
+else:
+  print("Log in")
+  name = input("Username: ")
+  password = input("Password: ")
+  if name not in keys:
+    print("Incorrect username or password")
+    exit()
+  salt = db[name]["salt"]
+  newPassword = hash(f"{password}{salt}")
+  if db[name]["password"] != newPassword:
+    print("Incorrect username or password")
+    exit()
 
 while True:
   os.system("clear")
